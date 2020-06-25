@@ -14,7 +14,7 @@
 				<div class="item">
 					<div class="slide-desc">
 						<div class="inner">
-							<h1>Stylish Jacket, be your best deal</h1>
+							<h1>Stylish Jacketasdfasd, be your best deal</h1>
 							<p>
 								Nunc non fermentum nunc. Sed ut ante eget leo tempor consequat sit amet eu orci. Donec dignissim dolor eget..
 							</p>
