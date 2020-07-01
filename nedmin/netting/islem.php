@@ -4,6 +4,7 @@ session_start();
 //VERİ TABANI İŞLEMİ OLACAK HER SAYFAYA BAĞLANTIYI EKLEMEMİZ GEREKİYOR.
 //AYNI KLASORDE OLDUĞU İÇİN DİREKT DOSYA UZANTISI VERMEDEN EKLEDİK.
 include'baglan.php';
+include'../production/fonksiyon.php';
 
 
 //--------------KULLANICI DÜZENLE-----------------------------
@@ -64,11 +65,120 @@ if ($_GET['kullanicisil']=="ok") {
 
 }
 
+//------------------------MENU SİL---------------------------
+
+if ($_GET['menusil']=="ok") {
+
+	$sil=$db->prepare("DELETE from menu where menu_id=:id");
+	$kontrol=$sil->execute(array(
+		//where kullanıcı id menu.php'de sil butonundan GET ile gelen id 
+		'id' => $_GET['menu_id']
+		));
 
 
+	if ($kontrol) {
 
 
+		header("location:../production/menu.php?sil=ok");
 
+
+	} else {
+
+		header("location:../production/menu.php?sil=no");
+
+	}
+
+}
+
+//----------------MENU DÜZENLE---------------------------------
+
+
+if (isset($_POST['menuduzenle'])) {
+
+	$menu_id=$_POST['menu_id'];
+
+
+	//htacces yapısına uygun olması için ve biz menülerimizi seo_url alanından alacağımız için
+	//menülerimizi türkçe karaktere çevirmemiz gerekiyor.
+
+
+	//seo fonk. kullanarak menu_ad kısmındaki türkçe kelimeleri ingilizce kelimelere dönüştürdük.
+	//yönetim panelinde menülerin isimlerini yeniden oluştururken Türkçe kullansakta, bu fonk. bu isimleri ingilizceye çevirerek menu_seourl kısmına yazıyor. biz menü isimlerini bu alandan(menu_seourl)'dan yapacağız.
+
+
+	//sonuc olarak seo fonk. türkçeyi yada rus,danimarka... gibi karakterleri ingilizce karakterlere çevirir.
+	$menu_seourl=seo($_POST['menu_ad']);
+
+	$ayarkaydet=$db->prepare("UPDATE menu SET
+		menu_ad=:menu_ad,
+		menu_detay=:menu_detay,
+		menu_url=:menu_url,
+		menu_sira=:menu_sira,
+		menu_seourl=:menu_seourl,
+		menu_durum=:menu_durum
+		WHERE menu_id={$_POST['menu_id']}");
+
+	$update=$ayarkaydet->execute(array(
+		'menu_ad' => $_POST['menu_ad'],
+		'menu_detay' => $_POST['menu_detay'],
+		'menu_url' => $_POST['menu_url'],
+		'menu_sira' => $_POST['menu_sira'],
+		'menu_seourl' => $menu_seourl,
+		'menu_durum' => $_POST['menu_durum']
+		));
+
+
+	if ($update) {
+
+		//güncelle dedğimizde sayfa url'de menu_id=1 get değeri görüyoruz dönüşüde bununla yapıyoruz. 
+		Header("Location:../production/menu-düzenle.php?menu_id=$menu_id&durum=ok");
+
+	} else {
+
+		Header("Location:../production/menu-düzenle.php?menu_id=$menu_id&durum=no");
+	}
+
+}
+
+
+//------------- MENU EKLE----------------------------------------
+
+
+if (isset($_POST['menukaydet'])) {
+
+
+	$menu_seourl=seo($_POST['menu_ad']);
+
+	$menuekle=$db->prepare("INSERT INTO menu SET
+		menu_ad=:menu_ad,
+		menu_detay=:menu_detay,
+		menu_url=:menu_url,
+		menu_sira=:menu_sira,
+		menu_seourl=:menu_seourl,
+		menu_durum=:menu_durum
+		");
+
+	$insert=$menuekle->execute(array(
+		'menu_ad' => $_POST['menu_ad'],
+		'menu_detay' => $_POST['menu_detay'],
+		'menu_url' => $_POST['menu_url'],
+		'menu_sira' => $_POST['menu_sira'],
+		'menu_seourl' => $menu_seourl,
+		'menu_durum' => $_POST['menu_durum']
+		));
+
+
+	if ($insert) {
+
+		
+		Header("Location:../production/menu-ekle.php?durum=ok");
+
+	} else {
+
+		Header("Location:../production/menu-ekle.php?durum=no");
+	}
+
+}
 
 
 //--------------KULLANICI GİRİSİ------------------------------
@@ -315,10 +425,10 @@ $update=$ayarkaydet1->execute(array(
   }else{
 	header("Location:../production/hakkimizda.php?durum=no");
   }
-
-
-
 }
+
+
+
 
 
 

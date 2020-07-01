@@ -69,6 +69,12 @@ if ($say==0) {
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
+
+
+  <!-- Ck Editör -->
+  <script src="https://cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
+
+
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
   </head>
@@ -79,7 +85,7 @@ if ($say==0) {
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
+              <a href="index.php" class="site_title"><i class="fa fa-paw"></i> <span>Kzlkaya Software!</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -108,6 +114,7 @@ if ($say==0) {
                   <li><a href="index.php"><i class="fa fa-home"></i> Ana Sayfa</a></li>
                   <li><a href="hakkimizda.php"><i class="fa fa-info"></i> Hakkımızda</a></li>
                   <li><a href="kullanici.php"><i class="fa fa-user"></i> Kullanıcılar</a></li>
+                  <li><a href="menu.php"><i class="fa fa-list"></i> Menüler</a></li>
                   <li><a><i class="fa fa-cogs"></i>Ayarlar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="genel-ayar.php">Genel Ayarlar</a></li>
